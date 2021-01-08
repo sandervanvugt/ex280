@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linginx3
+  labels:
+    deployment: linginx3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: linginx3
+  template:
+    metadata:
+      labels:
+        deployment: linginx3
+    spec:
+      containers:
+      - image: bitnami/nginx:latest
+        name: linginx3
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+        volumeMounts:
+        - mountPath: "/etc/nginx/ssl"
+          name: tls-certs
+        volumeMounts:
+        - mountPath: "/etc/nginx/conf.d"
+          name: configmap-volume
+      volumes:
+      - name: tls-certs
+        secret:
+          secretName: linginx-certs
+      - name: configmap-volume
+        configMap:
+          name: nginxconfigmap 
+      serviceAccount: linginx-sa
+      serviceAccountName: linginx-sa
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    deployment: linginx3
+  name: linginx3
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: https
+    port: 8443
+    protocol: TCP
+    targetPort: 8443
+  selector: 
+    deployment: linginx3

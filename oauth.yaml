@@ -1,0 +1,33 @@
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  creationTimestamp: "2020-12-03T12:17:01Z"
+  generation: 2
+  managedFields:
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec: {}
+    manager: cluster-version-operator
+    operation: Update
+    time: "2020-12-03T12:17:01Z"
+  - apiVersion: config.openshift.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:identityProviders: {}
+    manager: kubectl-client-side-apply
+    operation: Update
+    time: "2020-12-04T13:12:08Z"
+  name: cluster
+  resourceVersion: "52694"
+  selfLink: /apis/config.openshift.io/v1/oauths/cluster
+  uid: 14d07b5f-3ad7-458a-b794-c7b99bc9fbb2
+spec:
+  identityProviders:
+  - htpasswd:
+      fileData:
+        name: htpasswd-secret
+    mappingMethod: claim
+    name: htpass-users
+    type: HTPasswd

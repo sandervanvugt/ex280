@@ -1,0 +1,14 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: nwpol
+spec:
+  podSelector:
+    matchLabels:
+      type: production
+    ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: production-net
+

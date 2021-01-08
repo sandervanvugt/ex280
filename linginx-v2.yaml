@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linginx2
+  labels:
+    deployment: linginx2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: linginx2
+  template:
+    metadata:
+      labels:
+        deployment: linginx2
+    spec:
+      containers:
+      - image: docker.io/nginx
+        name: linginx2
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+        volumeMounts:
+        - mountPath: "/etc/nginx/ssl"
+          name: nginx-ssl
+      volumes:
+      - name: tls-certs
+        secret:
+          secretName: linginx-certs
+      serviceAccount: linginx-sa
+      serviceAccountName: linginx-sa
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    deployment: linginx2
+  name: linginx2
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: https
+    port: 8443
+    protocol: TCP
+    targetPort: 8443
+  selector: 
+    deployment: linginx2
