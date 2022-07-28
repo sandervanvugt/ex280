@@ -5,7 +5,7 @@ metadata:
   namespace: openshift-local-storage
 spec:
   storageClassDevices:
-    - storageClassName: kut-local-storage
+    - storageClassName: my-local-storage
       volumeMode: Block
       devicePaths:
         - /dev/loop0
