@@ -1,3 +1,3 @@
-development repository for EX280 files
-State: prerelease
-# ex280
+This Git repository contains supporting files for my "OpenShift Administration (EX280)" video course. See https://sandervanvugt.com for more details. 
+
+The files are also used in the live training I'm teaching at https://learning.oreilly.com.
