@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: withcert
+  name: withcert
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: withcert
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: withcert
+    spec:
+      containers:
+      - image: bitnami/nginx
+        name: nginx
+        resources: {}
+        ports:
+          - containerport: 8443
+            protocol: TCP
+        volumeMounts:
+          - name: secret-service
+            mountPath: /etc/pki/nginx/
+      volumes:
+      - name: secret-service
+        secret:
+          defaultMode: 420
+          secretName: server-secret
+          items:
+            - key: tls.crt
+              path: server.crt
+            - key: tls.eky
+              path: private/server.key
+status: {}
